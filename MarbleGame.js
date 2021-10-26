@@ -8,7 +8,7 @@ Gallery.scramble = (array) => {
    return array;
 };
 
-Gallery.createMarbleGame = () => {
+Gallery.marbleGame = () => {
    const group = new THREE.Group();
    const r = 0.6;
    const height = 0.1;
@@ -117,5 +117,8 @@ Gallery.createMarbleGame = () => {
 
    group.add(new THREE.Mesh(baseRingHalf, material))
    group.add(new THREE.Mesh(geometry, material))
+
+   save(group, 'marble_game.obj');
+
    return group;
 };

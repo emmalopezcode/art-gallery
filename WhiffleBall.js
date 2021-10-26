@@ -1,4 +1,4 @@
-Gallery.createWhiffleBall = () => {
+Gallery.whiffleBall = () => {
 
    const r = .25;
    const x = -1.5, y = 2.25, z = 1;
@@ -12,7 +12,7 @@ Gallery.createWhiffleBall = () => {
 
    let subtraction;
 
-   for (let i = 0; i < numHoles; i++) {
+   for (let i = 1; i < numHoles; i++) {
       const goldenRatio = (1 + Math.sqrt(5)) / 2;
       const point2D = { x: i / numHoles, y: i / goldenRatio };
 
@@ -50,6 +50,8 @@ Gallery.createWhiffleBall = () => {
        })
    );
    result.position.set(x, y, z);
+
+   save(result, 'whiffle_ball.obj');
 
    return result;
 }

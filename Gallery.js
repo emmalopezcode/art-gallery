@@ -292,6 +292,14 @@ Gallery.setup = () => {
    scene.add(Gallery.createShelves());
    scene.add(Gallery.createColumns());
    scene.add(Gallery.musicBox());
+   loadOBJAsset('./programmatic_models/marble_game.obj', scene, {
+      material: new THREE.MeshPhongMaterial({ color: 0x3e1b1b }),
+   });
+   loadOBJAsset('./programmatic_models/whiffle_ball.obj', scene, {
+      position: {
+         x: -1.5, y: 2.25, z: 1
+      },
+   });
 
    camera.position.set(0, 1, 7);
    camera.lookAt(scene.position);
@@ -353,18 +361,3 @@ Gallery.setup = () => {
       renderer.render(scene, camera);
    }
 };
-
-const recurseChildren = (obj, fn) => {
-   if (obj.length) {
-      obj.forEach((child => {
-         if (child.children && child.children.length) {
-            recurseChildren(child, fn);
-         }
-         else {
-            fn(child);
-         }
-      }));
-   } else {
-      recurseChildren(obj.children, fn);
-   }
-}

@@ -1,0 +1,16 @@
+{
+  "name": "gallery",
+  "version": "0.0.0",
+  "scripts": {
+    "lint": "eslint --ext .js",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.5.2"
+  },
+  "dependencies": {
+    "eslint": "^7.32.0"
+  }
+}

@@ -292,22 +292,6 @@ Gallery.setup = () => {
    scene.add(Gallery.createShelves());
    scene.add(Gallery.createColumns());
    scene.add(Gallery.musicBox());
-   Gallery.loadAsset(scene, {
-      file: 'music_box.glb',
-      material: Gallery.materials.gold,
-      rotation: {
-         x: Math.PI / 2,
-         y: Math.PI,
-         z: 0
-      },
-      position: {
-         x: -1.5,
-         y: 2.25,
-         z: 3
-      }
-   });
-
-   scene.add(Gallery.quarter());
 
    camera.position.set(0, 1, 7);
    camera.lookAt(scene.position);

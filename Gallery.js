@@ -292,6 +292,7 @@ Gallery.setup = () => {
    scene.add(Gallery.createShelves());
    scene.add(Gallery.createColumns());
    scene.add(Gallery.musicBox());
+   scene.add(Gallery.quarter());
    loadOBJAsset('./programmatic_models/marble_game.obj', scene, {
       material: new THREE.MeshPhongMaterial({ color: 0x3e1b1b }),
    });
@@ -356,7 +357,7 @@ Gallery.setup = () => {
    render();
 
    function render() {
-      controls.update(clock.getDelta() * 15);
+      controls.update(clock.getDelta() * 5);
       requestAnimationFrame(render);
       renderer.render(scene, camera);
    }

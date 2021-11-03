@@ -91,8 +91,6 @@ Gallery.quarter = () => {
 
    let heads = Gallery.uvMapFace(headsLocation, segments);
    let tails = Gallery.uvMapFace(tailsLocation, segments).reverse();
-   let wrap = Math.floor(segments / 2);
-   tails = [...tails.slice(wrap), ...tails.slice(0, wrap)];
 
    const geometry = new THREE.CylinderGeometry(
       radius,
@@ -115,6 +113,7 @@ Gallery.quarter = () => {
    mesh.position.set(x, y, z);
    mesh.rotation.set(0, -Math.PI / 4, Math.PI / 2);
    group.add(mesh);
+   mesh.noReceiveShadow = true;
    return group;
 };
 

@@ -351,7 +351,9 @@ Gallery.setup = () => {
    document.getElementById("webgl-output").appendChild(renderer.domElement);
 
    recurseChildren(scene, (child) => {
-      child.receiveShadow = true;
+      if(!child.noReceiveShadow) {
+         child.receiveShadow = true;
+      }
       child.castShadow = true;
    });
    render();

@@ -43,7 +43,8 @@
         return treeIsh;
       }
       polygons = [];
-      geometry = treeIsh instanceof THREE.Geometry ? treeIsh : treeIsh instanceof THREE.Mesh ? (treeIsh.updateMatrix(), this.matrix = treeIsh.matrix.clone(), treeIsh.geometry) : void 0;
+      geometry = treeIsh instanceof THREE.BufferGeometry ? treeIsh : treeIsh instanceof THREE.Mesh ? (treeIsh.updateMatrix(), this.matrix = treeIsh.matrix.clone(), treeIsh.geometry) : void 0;
+      console.log(geometry)
       _ref = geometry.faces;
       _fn = function(face, i) {
         var faceVertexUvs, idx, polygon, vIndex, vName, vertex, _j, _len1, _ref1, _ref2;
@@ -88,7 +89,7 @@
       var geometry, matrix,
         _this = this;
       matrix = new THREE.Matrix4().getInverse(this.matrix);
-      return returning((geometry = new THREE.Geometry()), function() {
+      return returning((geometry = new THREE.BufferGeometry()), function() {
         var face, idx, polyVerts, polygon, v, vertUvs, verts, _i, _len, _ref, _results;
         _ref = _this.tree.allPolygons();
         _results = [];

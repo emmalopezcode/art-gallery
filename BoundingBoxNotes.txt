@@ -1,0 +1,14 @@
+Bounding Box Questions
+
+1.  It makes sense to me that the bottom, left, front corner is the min
+    and the top, right, back corner is the max. That info is enough to 
+    know if a point is inside it etc.
+
+2.  The bounding box can change its position along with the object in a
+    fairly natural way, the rotation is what gets weird. Because the bounding
+    box only contains information about two points (the max and min) it cannot
+    represent an accurate, tight rotation. Instead, it is the smallest contained
+    box if it were rotated (0, 0, 0);
+
+3.  It does not, it is always world axis aligned.
+    

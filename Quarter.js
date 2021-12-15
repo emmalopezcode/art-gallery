@@ -1,139 +1,156 @@
 Gallery.rect = (context, config) => {
-   context.beginPath();
-   context.rect(config.x, config.y, config.width, config.height);
-   context.fillStyle = config.color;
-   context.fill();
+  context.beginPath();
+  context.rect(config.x, config.y, config.width, config.height);
+  context.fillStyle = config.color;
+  context.fill();
 };
 
-Gallery.generateTexture = (isNormal) => {
-   // draw a circle in the center of the canvas
-   const size = 512;
-   const numRects = 10;
+convertToColor = (angles) => {
+  let result = "#";
+  let r = angles[0];
+  let g = angles[1];
+  let b = angles[2];
+  const colorInts = [
+    Math.round(r * 127) + 128,
+    Math.round(g * 127) + 128,
+    Math.round(b * 255),
+  ];
 
-   const neutralColor = isNormal ? "#797FF2" : "#FFFFFF";
-   const indentColor = isNormal ? "#7866F2" : "#000000";
+  for (const int of colorInts) {
+    var str = Number(int).toString(16);
+    if (str.length < 2) {
+      str = "0" + str;
+    }
+    result += str;
+  }
 
-   // create canvas
-   var canvas = document.createElement("canvas");
-   canvas.width = size;
-   canvas.height = size;
+  return result;
+};
 
-   // get context
-   var context = canvas.getContext("2d");
-   context.imageSmoothingEnabled = false;
-   context.webkitImageSmoothingEnabled = false;
-   context.mozImageSmoothingEnabled = false;
+Gallery.generateNormal = () => {
+  const size = 512;
+  const numRects = 10;
 
-   Gallery.rect(context, {
-      x: 0,
+  let angles = [
+    [-Math.PI / 8, 0, Math.PI / 8],
+    [0, 0, 0],
+    [Math.PI / 8, 0, Math.PI / 8],
+    [Math.PI / 4, 0, Math.PI / 4],
+    [(3 * Math.PI) / 8, 0, Math.PI / 8],
+    [Math.PI / 2, 0, 0],
+    [(3 * Math.PI) / 8, 0, Math.PI / 8],
+    [Math.PI / 4, 0, Math.PI / 4],
+    [Math.PI / 8, 0, Math.PI / 8],
+    [0, 0, 0],
+    [-Math.PI / 8, 0, Math.PI / 8],
+    [-Math.PI / 4, 0, -Math.PI / 4],
+    [(-3 * Math.PI) / 8, 0, Math.PI / 8],
+    [-Math.PI / 2, 0, 0],
+    [(-3 * Math.PI) / 8, 0, Math.PI / 8],
+    [-Math.PI / 4, 0, -Math.PI / 4],
+  ].map((angle) => [Math.sin(angle[0]), 0, Math.cos(angle[0])]);
+
+  var canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+
+  var context = canvas.getContext("2d");
+  context.imageSmoothingEnabled = false;
+  context.webkitImageSmoothingEnabled = false;
+  context.mozImageSmoothingEnabled = false;
+
+  Gallery.rect(context, {
+    x: 0,
+    y: 0,
+    width: size,
+    height: size,
+    color: convertToColor(angles[1]),
+  });
+
+  for (let i = 0; i < angles.length; i++) {
+    const color = convertToColor(angles[i]);
+    Gallery.rect(context, {
+      x: i * (size / angles.length),
       y: 0,
-      width: size,
+      width: size / angles.length,
       height: size,
-      color: neutralColor,
-   });
+      color,
+    });
+  }
 
-   for (let i = 0; i < numRects; i++) {
-      Gallery.rect(context, {
-         x: i * (size / numRects) + size / (2 * numRects),
-         y: 0,
-         width: size / (4 * numRects),
-         height: size,
-         color: indentColor,
-      });
-   }
-
-   return canvas;
+  return canvas;
 };
 
-Gallery.edgeTest = () => {
-   let group = new THREE.Object3D();
+Gallery.generateDisplacement = () => {
+  const size = 512;
 
-   var texture = new THREE.Texture(Gallery.generateTexture());
-   texture.needsUpdate = true;
+  const neutralColor = "#FFFFFF";
+  const indentColor = "#000000";
 
-   let material = new THREE.MeshStandardMaterial({
-      displacementMap: texture,
-      //color: '0xffffff',
-      displacementScale: 0.036,
-   });
+  var canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
 
-   const geometry = new THREE.BoxGeometry(1, 1, 1);
-   const mesh = new THREE.Mesh(geometry, material);
-   mesh.position.set(0, 1, 0);
+  var context = canvas.getContext("2d");
+  context.imageSmoothingEnabled = false;
+  context.webkitImageSmoothingEnabled = false;
+  context.mozImageSmoothingEnabled = false;
 
-   group.add(mesh);
+  Gallery.rect(context, {
+    x: 0,
+    y: 0,
+    width: size,
+    height: size,
+    color: neutralColor,
+  });
 
-   return group;
+  Gallery.rect(context, {
+    x: size / 2,
+    y: 0,
+    width: size / 2,
+    height: size,
+    color: indentColor,
+  });
+
+  return canvas;
 };
 
 Gallery.quarter = () => {
-   const radius = 0.25;
-   const thickness = 0.036;
-   const x = -1.5;
-   const y = 2.5 - radius;
-   const z = 3;
-   const segments = 40;
-   const numRidges = 120;
-   const headsLocation = { x: 0.25, y: 0.25 };
-   const tailsLocation = { x: 0.75, y: 0.25 };
+  const radius = 0.5;
+  const thickness = 0.036;
+  const x = -1.5;
+  const y = 2.5;
+  const z = 3;
+  const segments = 1200;
 
-   let group = new THREE.Object3D();
+  let group = new THREE.Object3D();
 
-   let material = TexturedMaterial.simpleMaterial(
-      "./textures/quarter/atlas.png",
-      "map"
-   );
+  let material = TexturedMaterial.simpleMaterial(
+    "./textures/quarter/atlas.png",
+    "map"
+  );
 
-   var edge = new THREE.Texture(Gallery.generateTexture(false));
-   edge.needsUpdate = true;
-   edge.repeat.set(numRidges / 10, 1);
-   let edgeMat = new THREE.MeshStandardMaterial({ map: edge });
+  var edge = new THREE.Texture(Gallery.generateDisplacement());
+  edge.needsUpdate = true;
+  var edgeNormal = new THREE.Texture(Gallery.generateNormal());
+  edgeNormal.needsUpdate = true;
 
-   let heads = Gallery.uvMapFace(headsLocation, segments);
-   let tails = Gallery.uvMapFace(tailsLocation, segments).reverse();
+  let edgeMat = new THREE.MeshStandardMaterial({
+    displacementMap: edge,
+    displacementScale: 0.01,
+    metalness: 0.9,
+    roughness: 0.5,
+    normalMap: edgeNormal,
+  });
 
-   const geometry = new THREE.CylinderGeometry(
-      radius,
-      radius,
-      thickness,
-      segments
-   );
+  const geometry = Gallery.CylinderGeometry(radius, thickness, segments);
 
-   const edgeUvs = Array(segments)
-      .fill()
-      .map(() =>
-         // repeating just the first face
-         geometry.faceVertexUvs[0].slice(0, 2)
-      )
-      .flat(1);
+  const mesh = new THREE.Mesh(geometry, [material, edgeMat]);
+  mesh.rotation.set(Math.PI, -Math.PI / 8, Math.PI);
+  mesh.position.set(x, y, z);
+  mesh.name = "Coin";
 
-   geometry.faceVertexUvs[0] = [...edgeUvs, ...heads, ...tails];
-
-   const mesh = new THREE.Mesh(geometry, [edgeMat, material, material]);
-   mesh.position.set(x, y, z);
-   mesh.rotation.set(0, -Math.PI / 4, Math.PI / 2);
-   group.add(mesh);
-   mesh.noReceiveShadow = true;
-   return group;
-};
-
-Gallery.uvMapFace = (location, segments) => {
-   const radius = 0.25;
-   let uvs = [];
-   for (let i = 0; i < segments; i++) {
-      const angle = (i / segments) * (2 * Math.PI) - 1;
-      const prevAngle = ((i - 1) / segments) * (2 * Math.PI) - 1;
-      const { x, y } = location;
-      const curr = new THREE.Vector2(
-         radius * Math.sin(-angle) + x,
-         radius * Math.cos(-angle) + y
-      );
-      const prev = new THREE.Vector2(
-         radius * Math.sin(-prevAngle) + x,
-         radius * Math.cos(-prevAngle) + y
-      );
-      uvs.push([prev, curr, new THREE.Vector2(x, y)]);
-   }
-
-   return uvs;
+  mesh.noReceiveShadow = true;
+  group.add(mesh);
+  return group;
 };

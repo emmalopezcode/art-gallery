@@ -15,6 +15,11 @@
     <script
       type="text/javascript"
       charset="UTF-8"
+      src="./libs/three/utils/VertexNormalsHelper.js"
+    ></script>
+    <script
+      type="text/javascript"
+      charset="UTF-8"
       src="./libs/three/controls/FlyControls.js"
     ></script>
     <script
@@ -27,11 +32,7 @@
       charset="UTF-8"
       src="./libs/three/controls/OrbitControls.js"
     ></script>
-    <script
-      type="text/javascript"
-      charset="UTF-8"
-      src="./p5.min.js"
-    ></script>
+    <script type="text/javascript" charset="UTF-8" src="./p5.min.js"></script>
     <script
       type="text/javascript"
       charset="UTF-8"
@@ -42,11 +43,28 @@
       charset="UTF-8"
       src="./libs/three/loaders/OBJLoader.js"
     ></script>
+    <script
+      type="text/javascript"
+      charset="UTF-8"
+      src="./libs/other/CSGMesh.js"
+    ></script>
     <script type="text/javascript" src="./libs/util/Stats.js"></script>
     <script type="text/javascript" src="./libs/util/dat.gui.js"></script>
-    <script type="text/javascript" src="./util.js"></script>
+    <script type="text/javascript" src="./Ray.js"></script>
+    <script type="text/javascript" src="./CameraControls.js"></script>
     <script type="text/javascript" src="./TexturedMaterial.js"></script>
+    <script type="text/javascript" src="./intersect.js"></script>
+    <script type="text/javascript" src="./Particle.js"></script>
+    <script type="text/javascript" src="./libs/three/utils/BufferGeometryUtils.js"></script>
     <script type="text/javascript" src="./Gallery.js"></script>
+    <script type="text/javascript" src="./ParticleEmitter.js"></script>
+    <script type="text/javascript" src="./PreProcess.js"></script>
+    <script type="text/javascript" src="./util.js"></script>
+    <script type="text/javascript" src="./CylinderGeometry.js"></script>
+    <script type="text/javascript" src="./Lights.js"></script>
+    <script type="text/javascript" src="./Room.js"></script>
+    <script type="text/javascript" src="./Furniture.js"></script>
+    <script type="text/javascript" src="./Intersections.js"></script>
     <script type="text/javascript" src="./materials.js"></script>
     <script type="text/javascript" src="./WhiffleBall.js"></script>
     <script type="text/javascript" src="./MarbleGame.js"></script>
@@ -55,6 +73,7 @@
   </head>
   <body>
     <div id="webgl-output"></div>
+    <a id="downloadAnchorElem" style="display:none"></a>
 
     <!-- Javascript code that runs our Three.js examples -->
     <script type="text/javascript">

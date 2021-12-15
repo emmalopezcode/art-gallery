@@ -8,10 +8,11 @@ Gallery.wireframe = (geometry) => {
   return line;
 };
 
-Gallery.loadAsset = (scene, config) => {
+Gallery.loadAsset = (scene, leafmap, config) => {
   const loader = new THREE.GLTFLoader();
   loader.load(`./blender/${config.file}`, (data) => {
     let model = data.scene.children[0];
+    
     model.material = config.material;
     config.rotation &&
       model.rotation.set(
@@ -25,9 +26,15 @@ Gallery.loadAsset = (scene, config) => {
         config.position.y,
         config.position.z
       );
+    model.name = config.file;    
     scene.add(model);
+    Gallery.addLeaf(leafmap, scene, model);
   });
 };
+
+// p0: Vector3 {x: -4.5, y: 0, z: 6}
+// p1: Vector3 {x: -1.5, y: 0, z: 6}
+// p2: Vector3 {x: -1.5, y: 3, z: 6}
 
 Gallery.musicBox = () => {
   const group = new THREE.Object3D();
@@ -77,17 +84,8 @@ Gallery.musicBox = () => {
   shape.lineTo(length, 0);
   shape.lineTo(0, 0);
 
-  const extrudeSettings = {
-    steps: 2,
-    depth: 0.05,
-    bevelEnabled: true,
-    bevelThickness: bevel,
-    bevelSize: bevel,
-    bevelOffset: -4,
-    bevelSegments: bevelSegments,
-  };
-  const toothGeometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-
+  const toothGeometry = new THREE.BoxGeometry(0.05, 0.03, 0.1);
+  const teeth = [];
   for (
     let y = rodHeight;
     y <= rodHeight + cylinderHeight;
@@ -102,13 +100,16 @@ Gallery.musicBox = () => {
         y,
         Math.sin(angle) * cylinderRadius * 0.9
       );
-    body.merge(geometry);
+
+    teeth.push(geometry);
   }
 
-  let mesh = new THREE.Mesh(body, Gallery.materials.gold);
-  mesh.rotation.y = Math.PI;
-  mesh.rotation.x = Math.PI / 2;
+  const geometry = BufferGeometryUtils().mergeBufferGeometries([...teeth, body]);
+  
+  let mesh = new THREE.Mesh(geometry, Gallery.materials.gold);
   mesh.position.set(1.5, 2.25, 2.5);
+  mesh.rotation.set(Math.PI/2, Math.PI, 0);
+  mesh.name = 'musicboxHandmade';
   group.add(mesh);
 
   return group;
